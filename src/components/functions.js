@@ -1,0 +1,3 @@
+const createBoard = (rows, columns) => {
+    
+}
