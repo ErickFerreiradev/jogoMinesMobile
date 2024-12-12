@@ -5,7 +5,7 @@ import Field from './src/components/Field';
 import Flag from './src/components/Flag';
 import MineField from './src/components/MineField';
 import {
-  createMinedBoard, cloneBoard, openField, hasExplosion, wonGame, showMines
+  createMinedBoard, cloneBoard, openField, hasExplosion, wonGame, showMines, invertFlag, flagsUsed
 } from './src/components/functions'
 import { Component } from 'react';
 
@@ -50,6 +50,18 @@ export default class App extends Component {
     this.setState({ board, lost, won })
 
   }
+
+  onSelectField = (row, column) => {
+    const board = cloneBoard(this.state.board)
+    invertFlag(board, row, column)
+    const won = wonGame(board)
+
+    if (won){
+      Alert.alert("Parabéns, voce venceu!")
+    }
+
+    this.setState({ board, won })
+  }
   
   render(){
   return (
@@ -59,7 +71,8 @@ export default class App extends Component {
       
       <View style={styles.board}>
         <MineField board={this.state.board} 
-          onOpenField={this.onOpenField}/>
+          onOpenField={this.onOpenField}
+          onSelectField={this.onSelectField}/>
       </View>
     </View>
   );
